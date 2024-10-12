@@ -1,0 +1,47 @@
+.task-wrapper {
+    border: 1px solid gray;
+    padding: 15px;
+    border-radius: 15px;
+    background: aliceblue;
+    width: 400px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.buttons-container {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.add-note {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    border: none;
+}
+
+.notes-container {
+    padding-inline-start: 10px;
+    background-color: white;
+}
+
+button {
+    cursor: pointer;
+    border-radius: 10px;
+    flex-basis: 50px;
+    height: 30px;
+    border: none;
+}
+
+.delete-button {
+    background-color: red;
+}
+
+.mark-as-completed-button {
+    background-color: green;
+}

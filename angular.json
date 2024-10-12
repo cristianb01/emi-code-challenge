@@ -12,7 +12,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "emi",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -103,5 +103,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "517c5bc1-31e1-46d7-9696-d862689201df"
   }
 }

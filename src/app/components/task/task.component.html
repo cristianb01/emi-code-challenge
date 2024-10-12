@@ -1,0 +1,33 @@
+<form class="task-wrapper" [formGroup]="form">
+    <input type="text" formControlName="title">
+    <input type="text" formControlName="description">
+    <input type="date" formControlName="dueDate">
+    <div><span>Sate: </span><span>{{ latestState.state }}</span></div>
+
+
+    <p>Notes:</p>
+    <div class="notes-container">
+        @for (note of task.notes; track $index) {
+            <p>{{ note }}</p>
+        }
+        @empty {
+            <p>No notes in this task</p>
+        }
+    </div>
+
+    <div class="add-note">
+        <input type="text" formControlName="newNote">
+        <button class="button" (click)="onAddNoteButtonClick()">Add</button>
+    </div>
+
+    <div class="buttons-container">
+        <div class="button delete-button">Delete</div>
+        @if (!task.completed) {
+            <button class="button mark-as-completed-button" (click)="onMarkAsCompletedButtonClick()">
+                Mark as completed
+            </button>
+        }
+    </div>
+
+    <button class="button" (click)="onSaveChangesButtonClick()">Save changes</button>
+</form>
