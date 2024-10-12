@@ -21,7 +21,10 @@
     </div>
 
     <div class="buttons-container">
-        <div class="button delete-button">Delete</div>
+        <button class="button delete-button"
+            (click)="onDeleteButtonClick()">
+            Delete
+        </button>
         @if (!task.completed) {
             <button class="button mark-as-completed-button" (click)="onMarkAsCompletedButtonClick()">
                 Mark as completed

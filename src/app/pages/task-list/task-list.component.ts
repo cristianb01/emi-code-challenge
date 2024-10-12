@@ -26,15 +26,24 @@ export class TaskListComponent implements OnInit{
     this.taskService.get(this.currentPage * this.paginationSize, this.paginationSize);
   }
 
+  private loadTasks(): Promise<void> {
+    return this.taskService.get(this.currentPage * this.paginationSize, this.paginationSize);
+  }
+
   //#region Events
   public onPreviousPageButtonClick() {
     this.currentPage--;
-    this.taskService.get(this.currentPage * this.paginationSize, this.paginationSize);
+    this.loadTasks();
   }
 
   public onNextPageButtonClick() {
     this.currentPage++;
-    this.taskService.get(this.currentPage * this.paginationSize, this.paginationSize);
+    this.loadTasks();
+  }
+
+  public async onDeleteTask(task: Task) {
+    await this.taskService.delete(task);
+    await this.loadTasks();
   }
   //#endregion
 }

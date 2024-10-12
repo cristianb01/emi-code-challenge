@@ -1,6 +1,6 @@
 <div class="task-list-wrapper">
     @for (task of tasks; track $index) {
-        <emi-task [task]="task"/>
+        <emi-task [task]="task" (deleteTask)="onDeleteTask($event)"/>
     }
 
     <div class="paginator">

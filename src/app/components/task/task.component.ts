@@ -15,7 +15,7 @@ export class TaskComponent implements OnInit {
   
   @Input() public task!: Task;
 
-  @Output() deleteTask: EventEmitter<null> = new EventEmitter();
+  @Output() deleteTask: EventEmitter<Task> = new EventEmitter();
 
   @Output() markAsCompleted: EventEmitter<null> = new EventEmitter();
 
@@ -75,7 +75,7 @@ export class TaskComponent implements OnInit {
 
   //#region Events
   public onDeleteButtonClick(): void {
-    this.deleteTask.emit();
+    this.deleteTask.emit(this.task);
   }
 
   public onMarkAsCompletedButtonClick(): void {
@@ -91,7 +91,7 @@ export class TaskComponent implements OnInit {
   }
 
   public onSaveChangesButtonClick(): void {
-    
+
   }
   //#endregion
 
