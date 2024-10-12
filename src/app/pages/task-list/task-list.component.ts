@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TaskComponent } from "../../components/task/task.component";
 import { Task } from '../../models/task.model';
+import { TaskService } from '../../services/task.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'emi-task-list',
@@ -9,25 +11,30 @@ import { Task } from '../../models/task.model';
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
-export class TaskListComponent {
-  public testTask: Task;
+export class TaskListComponent implements OnInit{
+  public tasks!: Task[];
+  public currentPage: number;
+  private readonly paginationSize: number;
 
-  constructor() {
-    this.testTask = {
-      "title": "Complete Project Proposal",
-      "description": "Prepare and submit the project proposal for approval.",
-      "dueDate": new Date("2023-12-15"),
-      "completed": false,
-      "stateHistory": [
-        {"state": "new", "date": new Date("2023-12-01")},
-        {"state": "active", "date": new Date("2023-12-05")}
-      ],
-      "notes": [
-        "Check proposal guidelines",
-        "Include budget estimates"
-      ]
-    }
+  constructor(private taskService: TaskService) {
+    this.currentPage = 0;
+    this.paginationSize = 5;
   }
 
-  
+  ngOnInit() {
+    this.taskService.$tasks.subscribe(tasks => this.tasks = tasks);
+    this.taskService.get(this.currentPage * this.paginationSize, this.paginationSize);
+  }
+
+  //#region Events
+  public onPreviousPageButtonClick() {
+    this.currentPage--;
+    this.taskService.get(this.currentPage * this.paginationSize, this.paginationSize);
+  }
+
+  public onNextPageButtonClick() {
+    this.currentPage++;
+    this.taskService.get(this.currentPage * this.paginationSize, this.paginationSize);
+  }
+  //#endregion
 }

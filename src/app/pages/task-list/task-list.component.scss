@@ -2,4 +2,15 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    position: relative;
+}
+
+.paginator {
+    position: fixed;
+    bottom: 0;
+    background: burlywood;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }

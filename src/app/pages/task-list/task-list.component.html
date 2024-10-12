@@ -1,5 +1,18 @@
 <div class="task-list-wrapper">
-    <emi-task [task]="testTask"/>
-    <emi-task [task]="testTask"/>
-    <emi-task [task]="testTask"/>
+    @for (task of tasks; track $index) {
+        <emi-task [task]="task"/>
+    }
+
+    <div class="paginator">
+        <span>Page: {{ currentPage + 1 }}</span>
+        <button class="button" 
+            (click)="onPreviousPageButtonClick()"
+            [disabled]="currentPage == 0">
+            <
+        </button>
+        <button class="button" 
+            (click)="onNextPageButtonClick()">
+            >
+        </button>
+    </div>
 </div>
