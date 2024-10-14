@@ -4,12 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskFormComponent } from './pages/task-form/task-form.component';
 export const routes: Routes = [
     {
-        path: 'tasks',
+        path: 'task-list',
         component: TaskListComponent
     },
     {
         path: 'create-task',
         component: TaskFormComponent
     },
-    { path: '**', redirectTo: 'tasks'}
+    { path: '**', redirectTo: 'task-list'}
 ];

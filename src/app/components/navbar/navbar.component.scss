@@ -1,0 +1,16 @@
+.nav-container {
+    display: flex;
+    gap: 20px;
+    background-color: chocolate;
+    padding-block: 10px;
+    padding-inline: 20px;
+
+    .nav-item {
+        border: 1px solid gray;
+        border-radius: 10px;
+        background-color: cadetblue;
+        height: 15px;
+        padding: 10px;
+        cursor: pointer;
+    }
+}

@@ -53,4 +53,8 @@ export class TaskService {
       return false;
     }
   }
+
+  public add(task: Task) {
+    this.allTasks.push(task);
+  }
 }
