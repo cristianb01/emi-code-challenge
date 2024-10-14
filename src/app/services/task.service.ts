@@ -41,4 +41,16 @@ export class TaskService {
 
     this.allTasks = filteredTask;
   }
+
+  public update(task: Task): boolean {
+    let existingTaskIndex = this.allTasks.findIndex(t => t.title == task.title);
+
+    if (existingTaskIndex != -1) {
+      this.allTasks[existingTaskIndex] = task;
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
 }

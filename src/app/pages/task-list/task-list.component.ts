@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TaskComponent } from "../../components/task/task.component";
 import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
-import { lastValueFrom, Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -23,7 +23,7 @@ export class TaskListComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.tasks$ = this.taskService.tasks$;
+    this.tasks$ = this.taskService.tasks$.pipe(map(tasks => tasks.filter(t => !t.completed)));
     this.taskService.get(this.currentPage * this.paginationSize, this.paginationSize);
   }
 
@@ -44,6 +44,11 @@ export class TaskListComponent implements OnInit{
 
   public async onDeleteTask(task: Task) {
     await this.taskService.delete(task);
+    await this.loadTasks();
+  }
+
+  public async onMarkAsCompleted(task: Task) {
+    this.taskService.update(task);
     await this.loadTasks();
   }
   //#endregion

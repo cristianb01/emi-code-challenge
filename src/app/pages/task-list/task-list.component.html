@@ -1,6 +1,7 @@
 <div class="task-list-wrapper">
     @for (task of (tasks$ | async); track task.title) {
-        <emi-task [task]="task" (deleteTask)="onDeleteTask($event)"/>
+        <emi-task [task]="task" (deleteTask)="onDeleteTask($event)"
+            (markAsCompleted)="onMarkAsCompleted($event)"/>
     }
 
     <div class="paginator">

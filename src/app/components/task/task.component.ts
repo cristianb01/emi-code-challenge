@@ -17,7 +17,7 @@ export class TaskComponent implements OnInit {
 
   @Output() deleteTask: EventEmitter<Task> = new EventEmitter();
 
-  @Output() markAsCompleted: EventEmitter<null> = new EventEmitter();
+  @Output() markAsCompleted: EventEmitter<Task> = new EventEmitter();
 
   public latestState!: TaskState;
 
@@ -80,6 +80,8 @@ export class TaskComponent implements OnInit {
 
   public onMarkAsCompletedButtonClick(): void {
     this.form.controls['completed'].setValue(true);
+    const mappedTask = this.mapFormToTask();
+    this.markAsCompleted.emit(mappedTask);
   }
 
   public onAddNoteButtonClick(): void {
