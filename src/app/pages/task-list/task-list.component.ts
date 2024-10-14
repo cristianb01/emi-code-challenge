@@ -2,17 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { TaskComponent } from "../../components/task/task.component";
 import { Task } from '../../models/task.model';
 import { TaskService } from '../../services/task.service';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'emi-task-list',
   standalone: true,
-  imports: [TaskComponent],
+  imports: [TaskComponent, CommonModule],
   templateUrl: './task-list.component.html',
   styleUrl: './task-list.component.scss'
 })
 export class TaskListComponent implements OnInit{
-  public tasks!: Task[];
+  public tasks$!: Observable<Task[]>;
   public currentPage: number;
   private readonly paginationSize: number;
 
@@ -22,7 +23,7 @@ export class TaskListComponent implements OnInit{
   }
 
   ngOnInit() {
-    this.taskService.$tasks.subscribe(tasks => this.tasks = tasks);
+    this.tasks$ = this.taskService.tasks$;
     this.taskService.get(this.currentPage * this.paginationSize, this.paginationSize);
   }
 
