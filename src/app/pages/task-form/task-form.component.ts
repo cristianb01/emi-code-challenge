@@ -1,27 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { StatesService } from '../../services/states.service';
 import { State } from '../../models/state.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'emi-task-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.scss'
 })
 export class TaskFormComponent implements OnInit{
 
-  public form: FormGroup;
+  public form!: FormGroup;
   states!: State[];
 
   constructor(private formBuilder: FormBuilder, private statesService: StatesService) {
-    this.form = this.initializeForm();
   }
 
   ngOnInit(): void {
     this.statesService.states.subscribe(states => this.states = states);
     this.statesService.getStates();
+    this.form = this.initializeForm();
   }
 
   private initializeForm(): FormGroup {
@@ -30,19 +31,36 @@ export class TaskFormComponent implements OnInit{
       description: ['', Validators.required],
       dueDate: [new Date(), Validators.required],
       state: [null, Validators.required],
-      notes: this.formBuilder.array([]),
+      notes: this.formBuilder.array([], [this.atLeastOneNoteValidator()]),
       newNote: [''],
       completed: [false]
     });
   }
 
+  private atLeastOneNoteValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const notesArray = control.value as FormArray;
+  
+      if (notesArray.length === 0) {
+        return { atLeastOneNote: true };
+      }
+  
+      return null;
+    };
+  }
+
   public get notesFormArray() {
-    return this.form.controls['notes'] as FormArray;
+    return this.form.controls['notes'] as FormArray<FormControl>;
   }
 
   //#region Events
   public onAddNoteButtonClick(): void {
-    this.notesFormArray.controls.push(new FormControl('', Validators.required));
+    (this.form.controls['notes'] as FormArray).push(this.formBuilder.control(''));
+  }
+
+  public onFormSubmit() {
+    console.log(this.form.value)
+    console.log(this.form.valid)
   }
   //#endregion
 }

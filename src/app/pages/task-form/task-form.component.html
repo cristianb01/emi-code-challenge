@@ -15,10 +15,17 @@
             <h4>Notes:</h4>
             <ng-container formArrayName="notes">
                 @for (noteControl of notesFormArray.controls; track $index) {
-                    <input type="text" formControlName="$index">
+                    <input type="text" [formControl]="noteControl">
                 }
             </ng-container>
             <button class="button" (click)="onAddNoteButtonClick()">Add note</button>
         </div>
+
+        <button class="button" (click)="onFormSubmit()">Save changes</button>
     </div>
 </div>
+
+
+<p>
+    <code>{{ form.value | json }}</code>
+</p>
