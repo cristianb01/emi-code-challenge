@@ -1,0 +1,24 @@
+<div class="task-form-page-wrapper">
+    <div class="form" [formGroup]="form">
+        <h3>Create a Task</h3>
+        <input type="text" formControlName="title">
+        <input type="text" formControlName="description">
+        <input type="date" formControlName="dueDate">
+
+        <select formControlName="state">
+            @for (state of states; track $index) {
+                <option [value]="state.name">{{ state.name }}</option>
+            }
+        </select>
+
+        <div class="notes">
+            <h4>Notes:</h4>
+            <ng-container formArrayName="notes">
+                @for (noteControl of notesFormArray.controls; track $index) {
+                    <input type="text" formControlName="$index">
+                }
+            </ng-container>
+            <button class="button" (click)="onAddNoteButtonClick()">Add note</button>
+        </div>
+    </div>
+</div>
