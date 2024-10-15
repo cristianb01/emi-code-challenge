@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { Task } from '../../models/task.model';
 import { TaskState } from '../../models/task-state.model';
 import { TaskService } from '../../services/task.service';
+import Swal from 'sweetalert2';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'emi-task-form',
@@ -22,13 +24,20 @@ export class TaskFormComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder, 
     private statesService: StatesService,
-    private taskService: TaskService
+    private taskService: TaskService,
+    private alerService: AlertService
   ) {
   }
 
   ngOnInit(): void {
     this.statesService.states.subscribe(states => this.states = states);
-    this.statesService.getStates();
+    this.statesService.getStates().catch(e => this.alerService.showError(e as string));
+    try {
+    }
+    catch(errorMessage) {
+      this.alerService.showError(errorMessage as string);
+    }
+
     this.form = this.initializeForm();
   }
 
@@ -89,12 +98,17 @@ export class TaskFormComponent implements OnInit{
   }
 
   public onFormSubmit() {
-    console.log(this.form.value)
-    console.log(this.form.valid)
-
     if (this.form.valid) {
       const mappedTask = this.mapFormToModel();
-      this.taskService.add(mappedTask);
+
+      try {
+        this.taskService.add(mappedTask);
+      }
+      catch(error) {
+        Swal.fire({
+          title: 'There was a problem when processing this request'
+        });
+      }
     }
 
   }
