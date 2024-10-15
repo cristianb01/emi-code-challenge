@@ -31,13 +31,7 @@ export class TaskFormComponent implements OnInit{
 
   ngOnInit(): void {
     this.statesService.states.subscribe(states => this.states = states);
-    this.statesService.getStates().catch(e => this.alerService.showError(e as string));
-    try {
-    }
-    catch(errorMessage) {
-      this.alerService.showError(errorMessage as string);
-    }
-
+    this.statesService.getStates();
     this.form = this.initializeForm();
   }
 

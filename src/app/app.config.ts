@@ -3,8 +3,8 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { httpInterceptor } from './interceptors/http.interceptor';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi, HttpInterceptor } from '@angular/common/http';
+import { CustomHttpInterceptor } from './interceptors/http.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -13,7 +13,12 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(), 
     provideHttpClient(
       withFetch(),
-      withInterceptors([httpInterceptor])
-    )
+      withInterceptorsFromDi()
+    ),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
+      multi: true
+    }
   ]
 };
